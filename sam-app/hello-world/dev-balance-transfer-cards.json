@@ -1,0 +1,79 @@
+[
+    {
+      "name": { "S": "Barclaycard 18mths" },
+      "feePercentage": { "N": "2.99" },
+      "feeAmount": { "N": "0" },
+      "interestRate": { "N": "1.87" },
+      "promoPeriod": { "N": "18" },
+      "promoInterest": { "N": "0" },
+      "anchorLink": { "S": "#barclaycard18" },
+      "title": { "S": "18 months at 0% APR" },
+      "image": {
+        "S": "https://images6.moneysavingexpert.com/images/bt_tool_barclaycard.png"
+      }
+    },
+    {
+      "name": { "S": "Bog standard card 18%" },
+      "feePercentage": { "N": "0" },
+      "feeAmount": { "N": "0" },
+      "interestRate": { "N": "1.457" },
+      "promoPeriod": { "N": "0" },
+      "promoInterest": { "N": "0" },
+      "anchorLink": { "S": "bogstandard" },
+      "title": { "S": "EXAMPLE AT 18.9% APR" },
+      "image": { "S": "N/A" }
+    },
+    {
+      "name": { "S": "HSBC 28mths" },
+      "feePercentage": { "N": "1.4" },
+      "feeAmount": { "N": "0" },
+      "interestRate": { "N": "1.667" },
+      "promoPeriod": { "N": "28" },
+      "promoInterest": { "N": "0" },
+      "anchorLink": { "S": "#HSBC" },
+      "title": { "S": "28 months at 0% APR" },
+      "image": {
+        "S": "https://www.moneysavingexpert.com/content/dam/mse/editorial-image-library/guide-images/in-guide-images/hsbc-card-mass.png.rendition.768.768.png"
+      }
+    },
+    {
+      "name": { "S": "MBNA up to 29mths" },
+      "feePercentage": { "N": "2.75" },
+      "feeAmount": { "N": "0" },
+      "interestRate": { "N": "1.6662" },
+      "promoPeriod": { "N": "29" },
+      "promoInterest": { "N": "0" },
+      "anchorLink": { "S": "#mbna" },
+      "title": { "S": "Up to 29 months at 0% APR" },
+      "image": {
+        "S": "https://www.moneysavingexpert.com/content/dam/mse/editorial-image-library/guide-images/card_mbna-new.png.rendition.768.768.png"
+      }
+    },
+    {
+      "name": { "S": "Sainsburys up to 29mths" },
+      "feePercentage": { "N": "3" },
+      "feeAmount": { "N": "0" },
+      "interestRate": { "N": "1.527" },
+      "promoPeriod": { "N": "29" },
+      "promoInterest": { "N": "0" },
+      "anchorLink": { "S": "#sainsburys" },
+      "title": { "S": "29 months at 0% APR" },
+      "image": {
+        "S": "https://www.moneysavingexpert.com/content/dam/mse/editorial-image-library/guide-images/in-guide-images/card_Tesco-clubcard.png.rendition.768.768.png"
+      }
+    },
+    {
+      "name": { "S": "Tesco Low rate" },
+      "feePercentage": { "N": "0" },
+      "feeAmount": { "N": "0" },
+      "interestRate": { "N": "0.49" },
+      "promoPeriod": { "N": "0" },
+      "promoInterest": { "N": "0" },
+      "anchorLink": { "S": "#tescolowrate" },
+      "title": { "S": "6.05% low rate" },
+      "image": {
+        "S": "https://www.moneysavingexpert.com/content/dam/mse/editorial-image-library/guide-images/in-guide-images/card_Tesco-clubcard.png.rendition.768.768.png"
+      }
+    }
+  ]
+  

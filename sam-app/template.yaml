@@ -1,0 +1,179 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam-app
+
+  Sample SAM Template for sam-app
+  
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: hello-world/
+      Handler: app.lambdaHandler
+      Runtime: nodejs12.x
+      Policies: AdministratorAccess
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /hello
+            Method: get
+      Environment:
+        Variables:
+          Cards_Table: "dev-balance-transfer-cards"
+
+  CardsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "name"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "name"
+          KeyType: "HASH"
+      TableName: "dev-balance-transfer-cards"
+      BillingMode: "PAY_PER_REQUEST"
+      SSESpecification:
+        SSEEnabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  HelloWorldApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  HelloWorldFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt HelloWorldFunction.Arn
+  HelloWorldFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt HelloWorldFunctionRole.Arn
+
+# AWSTemplateFormatVersion: "2010-09-09"
+# Transform: AWS::Serverless-2016-10-31
+# Description: SAM training endpoint
+
+# Parameters:
+#   ReleaseStage:
+#     Type: String
+#   Deployment:
+#     Type: String
+#     Default: Canary10Percent5Minutes
+
+# Globals:
+#   Function:
+#     Timeout: 5
+#     Runtime: nodejs12.x
+#     AutoPublishAlias: live
+#   Api:
+#     Cors:
+#       AllowHeaders: "'Content-Type'"
+#       AllowOrigin: "'*'"
+
+# Resources:
+#   GetAllCardsFunction:
+#     Type: AWS::Serverless::Function
+#     Properties:
+#       CodeUri: lib/
+#       Handler: getAllCards.lambda_handler
+#       Policies:
+#         - AWSXrayWriteOnlyAccess
+#       Tracing: PassThrough
+#       Environment:
+#         Variables:
+#           Cards_Table: !Sub "${ReleaseStage}-balance-transfer-cards"
+#       DeploymentPreference:
+#         Type: !Ref Deployment
+#         Alarms:
+#           - !Ref GetAllCardsAliasErrorMetricGreaterThanZeroAlarm
+#           - !Ref GetAllCardsLatestVersionErrorMetricGreaterThanZeroAlarm
+#       Events:
+#         getCards:
+#           Type: Api
+#           Properties:
+#             Path: /get-cards
+#             Method: get
+#   CardsTable:
+#     Type: AWS::DynamoDB::Table
+#     Properties:
+#       AttributeDefinitions:
+#         - AttributeName: "name"
+#           AttributeType: "S"
+#       KeySchema:
+#         - AttributeName: "name"
+#           KeyType: "HASH"
+#       TableName: !Sub "${ReleaseStage}-balance-transfer-cards"
+#       BillingMode: "PAY_PER_REQUEST"
+#       SSESpecification:
+#         SSEEnabled: true
+#       PointInTimeRecoverySpecification:
+#         PointInTimeRecoveryEnabled: true
+        
+#   GetAllCardsAliasErrorMetricGreaterThanZeroAlarm:
+#     Type: "AWS::CloudWatch::Alarm"
+#     Properties:
+#       AlarmDescription: Lambda Function Error > 0
+#       AlarmActions:
+#         - !ImportValue cloudwatch-notifications-prod-SlackSNSTopic
+#       OKActions:
+#         - !ImportValue cloudwatch-notifications-prod-SlackSNSTopic
+#       InsufficientDataActions:
+#         - !ImportValue cloudwatch-notifications-prod-SlackSNSTopic
+#       ComparisonOperator: GreaterThanThreshold
+#       Dimensions:
+#         - Name: Resource
+#           Value: !Sub "${GetAllCardsFunction}:live"
+#         - Name: FunctionName
+#           Value: !Ref GetAllCardsFunction
+#       EvaluationPeriods: 2
+#       MetricName: Errors
+#       Namespace: AWS/Lambda
+#       Period: 60
+#       Statistic: Sum
+#       Threshold: 0
+
+#   GetAllCardsLatestVersionErrorMetricGreaterThanZeroAlarm:
+#     Type: "AWS::CloudWatch::Alarm"
+#     Properties:
+#       AlarmDescription: Lambda Function Error > 0
+#       AlarmActions:
+#         - !ImportValue cloudwatch-notifications-prod-SlackSNSTopic
+#       OKActions:
+#         - !ImportValue cloudwatch-notifications-prod-SlackSNSTopic
+#       InsufficientDataActions:
+#         - !ImportValue cloudwatch-notifications-prod-SlackSNSTopic
+#       ComparisonOperator: GreaterThanThreshold
+#       Dimensions:
+#         - Name: Resource
+#           Value: !Ref GetAllCardsFunction.Version
+#         - Name: FunctionName
+#           Value: !Ref GetAllCardsFunction
+#       EvaluationPeriods: 2
+#       MetricName: Errors
+#       Namespace: AWS/Lambda
+#       Period: 60
+#       Statistic: Sum
+#       Threshold: 0
+
+#   StagingBasePathMapping:
+#     DependsOn: ServerlessRestApiProdStage
+#     Type: AWS::ApiGateway::BasePathMapping
+#     Properties:
+#       BasePath: sam-training
+#       DomainName: !Sub "${ReleaseStage}-api.moneysavingexpert.com"
+#       RestApiId: !Ref ServerlessRestApi
+#       Stage: Prod
+
+# Outputs:
+#   Endpoint:
+#     Description: "API Gateway endpoint URL for Prod stage for the get-cards endpoint"
+#     Value: !Sub "https://${ReleaseStage}-api.moneysavingexpert.com/sam-training/get-cards/"
